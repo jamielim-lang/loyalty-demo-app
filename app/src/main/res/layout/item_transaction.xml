@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/background_white">
+
+    <!-- Date Header (shown when date changes) -->
+    <TextView
+        android:id="@+id/tv_date_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:background="#F9FAFB"
+        android:text="30 April 2025"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:visibility="visible" />
+
+    <!-- Transaction row -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp">
+
+        <!-- Store name -->
+        <TextView
+            android:id="@+id/tv_store_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Coles"
+            android:textSize="15sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_points"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Points earned/redeemed -->
+        <TextView
+            android:id="@+id/tv_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+108"
+            android:textSize="16sp"
+            android:textColor="@color/points_green"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Store location -->
+        <TextView
+            android:id="@+id/tv_store_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Cfc Nsw"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_points"
+            app:layout_constraintTop_toBottomOf="@id/tv_store_name" />
+
+        <!-- Amount -->
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="$108.80"
+            android:textSize="13sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_points"
+            app:layout_constraintTop_toBottomOf="@id/tv_store_location" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Bottom divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:marginHorizontal="16dp"
+        android:background="@color/divider" />
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Flybuys Brand Colors -->
+    <color name="flybuys_red">#E31E24</color>
+    <color name="flybuys_blue">#1E3A8A</color>
+    <color name="flybuys_blue_dark">#152D6E</color>
+    <color name="flybuys_blue_light">#2563EB</color>
+
+    <!-- UI Colors -->
+    <color name="background_light">#EBF4FA</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="surface_light_blue">#E8F4FC</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1E3A8A</color>
+    <color name="text_secondary">#5B7AA3</color>
+    <color name="text_body">#374151</color>
+    <color name="text_hint">#9CA3AF</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <!-- Points Colors -->
+    <color name="points_blue">#1E3A8A</color>
+    <color name="points_value_blue">#2563EB</color>
+    <color name="points_green">#16A34A</color>
+
+    <!-- Offer Colors -->
+    <color name="offer_expiry_red">#DC2626</color>
+    <color name="offer_expiry_orange">#D97706</color>
+    <color name="badge_blue">#1E3A8A</color>
+    <color name="badge_blue_ring">#3B82F6</color>
+
+    <!-- Bottom Nav Colors -->
+    <color name="nav_selected">#1E3A8A</color>
+    <color name="nav_unselected">#9CA3AF</color>
+
+    <!-- Card Colors -->
+    <color name="card_border">#E5E7EB</color>
+    <color name="divider">#F3F4F6</color>
+
+    <!-- Button Colors -->
+    <color name="button_primary">#1E3A8A</color>
+    <color name="button_secondary_border">#1E3A8A</color>
+    <color name="button_secondary_text">#1E3A8A</color>
+
+    <!-- Status Colors -->
+    <color name="status_success">#16A34A</color>
+    <color name="status_warning">#D97706</color>
+    <color name="status_error">#DC2626</color>
+
+    <!-- Material theme required -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

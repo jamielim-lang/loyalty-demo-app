@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+
+    <!-- Screen padding -->
+    <dimen name="screen_padding_horizontal">16dp</dimen>
+    <dimen name="screen_padding_vertical">16dp</dimen>
+
+    <!-- Card -->
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+
+    <!-- Bottom Navigation -->
+    <dimen name="bottom_nav_height">64dp</dimen>
+
+    <!-- Points Display -->
+    <dimen name="points_text_size">42sp</dimen>
+    <dimen name="points_label_size">20sp</dimen>
+
+    <!-- Offer Card -->
+    <dimen name="offer_card_width">280dp</dimen>
+    <dimen name="offer_image_height">160dp</dimen>
+    <dimen name="offer_badge_size">72dp</dimen>
+
+    <!-- Promotion Tile -->
+    <dimen name="promo_tile_size">90dp</dimen>
+
+    <!-- Partner Logo -->
+    <dimen name="partner_logo_size">60dp</dimen>
+    <dimen name="partner_card_height">100dp</dimen>
+
+    <!-- Button -->
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_corner_radius">24dp</dimen>
+
+    <!-- Icon sizes -->
+    <dimen name="icon_sm">20dp</dimen>
+    <dimen name="icon_md">24dp</dimen>
+    <dimen name="icon_lg">32dp</dimen>
+
+    <!-- Reward grid item -->
+    <dimen name="reward_icon_size">48dp</dimen>
+</resources>

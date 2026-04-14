@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flybuys</title>
+<script src="bundle.js?v=2"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --blue: #1E3A8A;
+    --blue-mid: #2563EB;
+    --blue-light: #EBF4FA;
+    --red: #E31E24;
+    --white: #FFFFFF;
+    --surface: #FFFFFF;
+    --bg: #EBF4FA;
+    --text-primary: #1E3A8A;
+    --text-body: #374151;
+    --text-secondary: #6B7280;
+    --text-hint: #9CA3AF;
+    --green: #16A34A;
+    --orange: #D97706;
+    --divider: #F3F4F6;
+    --border: #E5E7EB;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #D1D5DB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  /* Phone shell */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--bg);
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 2px #1a1a1a;
+    position: relative;
+  }
+
+  /* Status bar */
+  .status-bar {
+    background: var(--bg);
+    padding: 14px 24px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .status-bar .time { font-size: 15px; font-weight: 600; color: #111; }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .icons span { font-size: 12px; font-weight: 600; color: #111; }
+
+  /* Screen container */
+  .screens { flex: 1; overflow: hidden; position: relative; }
+  .screen {
+    position: absolute; inset: 0;
+    overflow-y: auto; overflow-x: hidden;
+    display: none;
+    flex-direction: column;
+    background: var(--bg);
+    -webkit-overflow-scrolling: touch;
+  }
+  .screen.active { display: flex; }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    background: var(--white);
+    display: flex;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    padding-bottom: 8px;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    padding: 10px 4px 4px;
+    cursor: pointer; border: none; background: none;
+    color: var(--text-hint);
+    transition: color 0.15s;
+  }
+  .nav-item.active { color: var(--blue); }
+  .nav-item svg { width: 22px; height: 22px; }
+  .nav-item span { font-size: 10px; font-weight: 500; }
+
+  /* Screen header */
+  .screen-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 16px 10px;
+    background: var(--bg);
+  }
+  .screen-title { font-size: 24px; font-weight: 700; color: var(--blue); }
+  .screen-title.center { flex: 1; text-align: center; font-size: 18px; }
+  .profile-btn {
+    width: 32px; height: 32px; border: none; background: none;
+    cursor: pointer; color: var(--blue);
+  }
+  .profile-btn svg { width: 32px; height: 32px; }
+
+  /* Cards */
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    margin: 0 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .card + .card { margin-top: 10px; }
+
+  /* ── HOME SCREEN ── */
+  .promo-scroll {
+    display: flex; gap: 4px;
+    padding: 10px 12px 14px;
+    overflow-x: auto; overflow-y: hidden;
+  }
+  .promo-scroll::-webkit-scrollbar { display: none; }
+  .promo-tile {
+    flex-shrink: 0; display: flex; flex-direction: column;
+    align-items: center; gap: 6px; width: 80px;
+    cursor: pointer;
+  }
+  .promo-circle {
+    width: 78px; height: 78px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+    border: 2.5px solid var(--border);
+  }
+  .promo-circle.coles-border { border-color: #E31E24; }
+  .promo-circle.blue-border { border-color: var(--blue-mid); border-width: 3px; }
+  .promo-circle.teal-border { border-color: #06B6D4; }
+  .promo-circle.red-solid { border-color: var(--red); }
+  .promo-circle-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .promo-badge {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--red); color: white;
+    font-size: 9px; font-weight: 700; text-align: center;
+    padding: 2px 0;
+  }
+  .promo-label { font-size: 11px; color: var(--text-body); text-align: center; line-height: 1.3; }
+
+  /* Points card */
+  .points-card { padding: 18px 20px 0; }
+  .points-row { display: flex; align-items: baseline; gap: 7px; }
+  .points-num { font-size: 42px; font-weight: 800; color: var(--blue); line-height: 1; }
+  .points-label { font-size: 20px; font-weight: 700; color: var(--blue); }
+  .points-value { font-size: 15px; color: var(--blue-mid); margin-top: 3px; }
+  .points-cta { font-size: 14px; color: var(--text-body); margin-top: 14px; line-height: 1.5; }
+  .divider { height: 1px; background: var(--divider); margin: 14px 0 0; }
+  .choose-reward-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0 18px;
+    cursor: pointer;
+  }
+  .gift-icon { font-size: 26px; }
+  .choose-reward-text { flex: 1; font-size: 16px; font-weight: 700; color: var(--blue); }
+  .chevron { font-size: 18px; color: var(--blue); }
+
+  /* Offer counter cards */
+  .counter-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; cursor: pointer;
+  }
+  .counter-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .counter-icon.yellow { background: #FCD34D; }
+  .counter-info { flex: 1; }
+  .counter-title { font-size: 15px; font-weight: 700; color: var(--text-body); }
+  .counter-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .counter-num { font-size: 22px; font-weight: 800; color: var(--blue); }
+
+  /* Partners promo */
+  .partners-banner {
+    background: var(--red); border-radius: 14px;
+    margin: 10px 16px; padding: 18px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+  }
+  .partners-banner-text { flex: 1; }
+  .partners-banner-title { font-size: 15px; font-weight: 700; color: white; line-height: 1.4; }
+  .partners-banner-btn {
+    border: 1.5px solid white; color: white; background: none;
+    border-radius: 16px; padding: 5px 12px; font-size: 12px;
+    cursor: pointer; white-space: nowrap;
+  }
+
+  /* ── COLLECT SCREEN ── */
+  .info-banner {
+    margin: 4px 16px 4px; background: #F3F4F6; border-radius: 10px;
+    padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .info-icon {
+    width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--text-secondary); flex-shrink: 0; margin-top: 1px;
+  }
+  .info-text { font-size: 13px; color: var(--text-body); line-height: 1.5; }
+
+  .section-header { padding: 16px 16px 8px; }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--blue); }
+  .section-count { font-size: 18px; font-weight: 700; color: var(--blue); }
+  .view-all { font-size: 14px; color: var(--blue); margin-top: 4px; cursor: pointer; display: block; }
+
+  .offers-scroll {
+    display: flex; gap: 10px;
+    padding: 4px 12px 16px;
+    overflow-x: auto;
+  }
+  .offers-scroll::-webkit-scrollbar { display: none; }
+
+  /* Offer card */
+  .offer-card {
+    flex-shrink: 0; width: 270px; background: white;
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+  }
+  .offer-image {
+    width: 100%; height: 155px; background: #F9FAFB;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .offer-image-bg {
+    width: 100%; height: 100%; object-fit: cover;
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+  }
+  .offer-store-badge {
+    position: absolute; bottom: 10px; left: 10px;
+    background: var(--red); color: white;
+    font-size: 11px; font-weight: 700; padding: 4px 10px;
+  }
+  .offer-points-badge {
+    position: absolute; bottom: 10px; right: 10px;
+    width: 68px; height: 68px; border-radius: 50%;
+    background: white; border: 3px solid #3B82F6;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .badge-num { font-size: 18px; font-weight: 800; color: var(--blue); line-height: 1; }
+  .badge-label { font-size: 8px; font-weight: 700; color: var(--blue); letter-spacing: 0.5px; }
+  .offer-body { padding: 13px 14px 14px; }
+  .offer-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+  .offer-desc { font-size: 12px; color: var(--text-body); margin-top: 4px; line-height: 1.4; }
+  .offer-expiry {
+    display: flex; align-items: center; gap: 5px;
+    margin-top: 10px; font-size: 12px;
+  }
+  .expiry-dot { width: 14px; height: 14px; }
+  .expiry-red { color: var(--red); }
+  .expiry-orange { color: var(--orange); }
+  .offer-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .btn-hide {
+    flex: 1; height: 42px; border: 1.5px solid var(--blue);
+    background: none; color: var(--blue); border-radius: 22px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .btn-activate {
+    flex: 1; height: 42px; background: var(--blue);
+    color: white; border: none; border-radius: 22px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-activate.activated { background: var(--green); }
+  .btn-hide:active { opacity: 0.7; }
+  .btn-activate:active { opacity: 0.85; }
+
+  /* ── WALLET SCREEN ── */
+  .wallet-card {
+    margin: 8px 16px; border-radius: 18px; overflow: hidden;
+    background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 60%, #3B82F6 100%);
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(30,58,138,0.35);
+    min-height: 190px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .wallet-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .wallet-logo { font-size: 22px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+  .wallet-points-top { text-align: right; }
+  .wallet-points-num { font-size: 28px; font-weight: 800; color: white; }
+  .wallet-points-lbl { font-size: 12px; color: rgba(255,255,255,0.7); text-align: right; }
+  .wallet-card-bottom {}
+  .wallet-member-lbl { font-size: 10px; color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .wallet-member-num { font-size: 18px; font-weight: 700; color: white; letter-spacing: 2px; }
+  .wallet-scan-hint { text-align: center; font-size: 13px; color: var(--text-secondary); margin: 10px 0 20px; }
+
+  .section-heading { font-size: 18px; font-weight: 700; color: var(--blue); padding: 16px 16px 10px; }
+
+  .linked-card-item {
+    margin: 0 16px; background: white; border-radius: 12px;
+    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .linked-card-info .lc-name { font-size: 15px; font-weight: 700; color: var(--text-body); }
+  .linked-card-info .lc-num { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .linked-badge { background: #DCFCE7; color: var(--green); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+
+  .add-card-btn {
+    margin: 10px 16px; background: white; border-radius: 12px;
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    border: none; width: calc(100% - 32px); cursor: pointer; text-align: left;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  .add-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #EFF6FF; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: var(--blue); font-weight: 300; flex-shrink: 0;
+  }
+  .add-card-label { flex: 1; font-size: 15px; font-weight: 700; color: var(--blue); }
+
+  /* ── REDEEM SCREEN ── */
+  .bunnings-banner {
+    margin: 4px 16px 0; border-radius: 14px; overflow: hidden;
+    background: #1B6B5A; padding: 18px 20px;
+    display: flex; align-items: center; gap: 14px; cursor: pointer;
+  }
+  .bunnings-text { flex: 1; }
+  .bunnings-title { font-size: 15px; font-weight: 700; color: white; line-height: 1.45; }
+  .bunnings-link { font-size: 13px; font-weight: 600; color: white; margin-top: 8px; display: block; }
+  .bunnings-logo {
+    width: 72px; height: 72px; border-radius: 50%; background: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 32px; font-weight: 800; color: #E31E24;
+  }
+  .rewards-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; padding: 0 16px; margin-top: 4px;
+  }
+  .reward-item {
+    background: white; border-radius: 12px; padding: 14px 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    cursor: pointer; border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    transition: transform 0.1s;
+  }
+  .reward-item:active { transform: scale(0.96); }
+  .reward-icon { font-size: 30px; }
+  .reward-label { font-size: 11px; font-weight: 700; color: var(--text-primary); text-align: center; line-height: 1.3; }
+
+  .promo-section-card {
+    margin: 10px 16px; background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    border-radius: 14px; padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+  }
+  .promo-s-icon { font-size: 36px; }
+  .promo-s-text {}
+  .promo-s-title { font-size: 14px; font-weight: 700; color: var(--blue); }
+  .promo-s-sub { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+
+  /* ── ACTIVITY SCREEN ── */
+  .activity-screen { background: white; }
+  .filter-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px 12px; background: white;
+  }
+  .filter-hint { font-size: 13px; color: var(--text-secondary); flex: 1; padding-right: 12px; line-height: 1.4; }
+  .filter-btn {
+    display: flex; align-items: center; gap: 5px;
+    border: 1.5px solid var(--blue); background: none;
+    color: var(--blue); padding: 6px 14px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .col-headers {
+    display: flex; justify-content: space-between;
+    padding: 10px 16px; background: #F9FAFB;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .col-header { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+  .txn-date-header {
+    padding: 10px 16px 6px; background: #F9FAFB;
+    font-size: 12px; color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .txn-row {
+    padding: 14px 16px; display: flex; align-items: flex-start;
+    border-bottom: 1px solid var(--divider);
+  }
+  .txn-info { flex: 1; }
+  .txn-store { font-size: 15px; font-weight: 700; color: var(--text-body); }
+  .txn-location { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .txn-amount { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
+  .txn-points { font-size: 16px; font-weight: 700; }
+  .txn-earn { color: var(--green); }
+  .txn-redeem { color: var(--red); }
+
+  .all-caught-up {
+    margin: 16px; background: #EFF6FF; border-radius: 12px; padding: 16px;
+  }
+  .acu-title { font-size: 15px; font-weight: 700; color: var(--text-body); }
+  .acu-sub { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+
+  /* ── PARTNER SCREEN ── */
+  .partner-screen { background: white; }
+  .partner-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; padding: 0 16px; margin-bottom: 4px;
+  }
+  .partner-card {
+    background: white; border-radius: 12px; padding: 14px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    cursor: pointer; border: 1px solid var(--border);
+    transition: border-color 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .partner-card:active { border-color: var(--blue); }
+  .partner-logo-wrap {
+    width: 58px; height: 44px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .partner-logo-text { font-size: 11px; font-weight: 800; color: white; text-align: center; letter-spacing: -0.3px; }
+  .partner-name { font-size: 12px; font-weight: 600; color: var(--text-body); text-align: center; line-height: 1.3; }
+  .cat-heading { font-size: 16px; font-weight: 700; color: var(--text-body); padding: 16px 16px 8px; }
+
+  /* Toast */
+  .toast {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1f2937; color: white; padding: 10px 18px; border-radius: 22px;
+    font-size: 13px; font-weight: 500; white-space: nowrap;
+    opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── LOGIN SCREEN ── */
+  .login-overlay {
+    position: absolute; inset: 0; z-index: 200;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 32px 24px;
+    border-radius: 44px;
+  }
+  .login-overlay.hidden { display: none; }
+  .login-logo {
+    font-size: 36px; font-weight: 900; color: var(--blue);
+    letter-spacing: -1px; margin-bottom: 6px;
+  }
+  .login-tagline { font-size: 13px; color: var(--text-secondary); margin-bottom: 40px; }
+  .login-form { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  .login-input {
+    width: 100%; height: 48px; border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 0 16px; font-size: 15px;
+    background: white; color: var(--text-body); outline: none;
+    transition: border-color 0.15s;
+  }
+  .login-input:focus { border-color: var(--blue); }
+  .login-btn {
+    width: 100%; height: 48px; background: var(--blue);
+    color: white; border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    margin-top: 4px; transition: opacity 0.15s;
+  }
+  .login-btn:active { opacity: 0.85; }
+  .login-error {
+    font-size: 13px; color: var(--red); text-align: center;
+    min-height: 18px;
+  }
+  .login-hint { font-size: 12px; color: var(--text-hint); text-align: center; margin-top: 20px; }
+
+  /* Scrollbar hide for all */
+  * { scrollbar-width: none; }
+  *::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time" id="clock">4:52</span>
+    <div class="icons">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <rect x="0" y="3" width="3" height="9" rx="1" fill="#111" opacity="0.3"/>
+        <rect x="4.5" y="2" width="3" height="10" rx="1" fill="#111" opacity="0.5"/>
+        <rect x="9" y="1" width="3" height="11" rx="1" fill="#111" opacity="0.8"/>
+        <rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="#111"/>
+      </svg>
+      <span>5G</span>
+      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+        <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="#111" stroke-opacity="0.35"/>
+        <rect x="2" y="2" width="17" height="8" rx="1.5" fill="#111"/>
+        <path d="M23 4.5V7.5C23.8 7.2 24.5 6.5 24.5 6C24.5 5.5 23.8 4.8 23 4.5Z" fill="#111" opacity="0.4"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Screens -->
+  <div class="screens">
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <div class="screen-header">
+        <span class="screen-title" id="greeting">Afternoon, Jamie</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Promo tiles -->
+      <div class="promo-scroll">
+        <div class="promo-tile" onclick="showToast('European Glassware')">
+          <div class="promo-circle coles-border">
+            <div class="promo-circle-inner" style="background:#FFF5F5">
+              <span style="font-size:32px">🥃</span>
+              <div class="promo-badge">Coles</div>
+            </div>
+          </div>
+          <span class="promo-label">European Glassware</span>
+        </div>
+        <div class="promo-tile" onclick="showToast('Golden Coke Can — WIN 200,000 POINTS')">
+          <div class="promo-circle blue-border">
+            <div class="promo-circle-inner" style="background:#EFF6FF; flex-direction:column; gap:2px">
+              <span style="font-size:9px;font-weight:800;color:#1E3A8A">WIN</span>
+              <span style="font-size:13px;font-weight:900;color:#1E3A8A">200,000</span>
+              <span style="font-size:8px;font-weight:700;color:#1E3A8A">POINTS</span>
+              <div class="promo-badge">Coles</div>
+            </div>
+          </div>
+          <span class="promo-label">Golden Coke Can</span>
+        </div>
+        <div class="promo-tile" onclick="showToast('Points Millionaire — Enter Now')">
+          <div class="promo-circle teal-border">
+            <div class="promo-circle-inner" style="background:#0EA5E9; flex-direction:column; gap:0">
+              <span style="font-size:14px;font-weight:800;color:white;letter-spacing:-0.5px">velocity</span>
+              <span style="font-size:8px;color:rgba(255,255,255,0.8)">frequent flyer</span>
+              <div style="position:absolute;bottom:0;left:0;right:0;background:#1E3A8A;padding:2px 0;font-size:8px;font-weight:700;color:white;text-align:center">Enter now</div>
+            </div>
+          </div>
+          <span class="promo-label">Points Millionaire</span>
+        </div>
+        <div class="promo-tile" onclick="showToast('HCF Offer')">
+          <div class="promo-circle red-solid">
+            <div class="promo-circle-inner" style="background:#E31E24">
+              <span style="font-size:11px;font-weight:800;color:white">⊙ HCF</span>
+            </div>
+          </div>
+          <span class="promo-label">HCF Offer</span>
+        </div>
+      </div>
+
+      <!-- Points balance -->
+      <div class="card" style="padding: 0">
+        <div class="points-card">
+          <div class="points-row">
+            <span class="points-num" id="home-points">1,278</span>
+            <span class="points-label">points</span>
+          </div>
+          <div class="points-value" id="home-dollars">worth $6.39 Flybuys Dollars</div>
+          <div class="points-cta">Get started by choosing how you'd like to be rewarded!</div>
+          <div class="divider"></div>
+          <div class="choose-reward-row" onclick="navigate('redeem')">
+            <span class="gift-icon">🎁</span>
+            <span class="choose-reward-text">Choose reward</span>
+            <span class="chevron">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Available offers -->
+      <div class="card" style="margin-top:10px" onclick="navigate('collect')">
+        <div class="counter-card">
+          <div class="counter-info">
+            <div class="counter-title">Available offers</div>
+            <div class="counter-sub">Activate your offers to collect more points</div>
+          </div>
+          <div class="counter-num" id="available-count">2</div>
+        </div>
+      </div>
+
+      <!-- Activated offers -->
+      <div class="card" onclick="navigate('collect')">
+        <div class="counter-card">
+          <div class="counter-icon yellow">⚡</div>
+          <div class="counter-info">
+            <div class="counter-title">Activated offers</div>
+            <div class="counter-sub">Offers ready to shop</div>
+          </div>
+          <div class="counter-num" id="activated-count">0</div>
+        </div>
+      </div>
+
+      <!-- Partners banner -->
+      <div class="partners-banner" onclick="navigate('partners')">
+        <div class="partners-banner-text">
+          <div class="partners-banner-title">Shop at our partners to earn more points</div>
+        </div>
+        <button class="partners-banner-btn">View partners</button>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- COLLECT -->
+    <div class="screen" id="screen-collect">
+      <div class="screen-header">
+        <span class="screen-title">Collect</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="info-banner">
+        <div class="info-icon">i</div>
+        <div class="info-text">When you activate an offer, you can access them here.</div>
+      </div>
+
+      <div class="section-header">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <span class="section-title">Offers just for you</span>
+          <span class="section-count" id="offers-count">2</span>
+        </div>
+        <span class="view-all" onclick="showToast('View all offers')">View all</span>
+      </div>
+
+      <div class="offers-scroll" id="offers-list">
+        <!-- Offer cards injected by JS -->
+      </div>
+      <div style="height:8px"></div>
+    </div>
+
+    <!-- WALLET -->
+    <div class="screen" id="screen-wallet">
+      <div class="screen-header">
+        <span class="screen-title">Wallet</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="wallet-card">
+        <div class="wallet-card-top">
+          <div class="wallet-logo">flybuys</div>
+          <div class="wallet-points-top">
+            <div class="wallet-points-num" id="wallet-points">1,278</div>
+            <div class="wallet-points-lbl">points</div>
+          </div>
+        </div>
+        <div class="wallet-card-bottom">
+          <div class="wallet-member-lbl">Member Number</div>
+          <div class="wallet-member-num">1234 5678 9012</div>
+        </div>
+      </div>
+
+      <div class="wallet-scan-hint">Scan to earn points in-store</div>
+
+      <div class="section-heading">Linked Cards</div>
+
+      <div class="linked-card-item">
+        <div class="linked-card-info">
+          <div class="lc-name">Coles Mastercard</div>
+          <div class="lc-num">**** **** **** 4521</div>
+        </div>
+        <div class="linked-badge">Linked</div>
+      </div>
+
+      <button class="add-card-btn" onclick="showToast('Add a card')">
+        <div class="add-icon">+</div>
+        <span class="add-card-label">Add a card</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#1E3A8A"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- REDEEM -->
+    <div class="screen" id="screen-redeem">
+      <div class="screen-header">
+        <span class="screen-title">Redeem</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="bunnings-banner" onclick="showToast('Learn how to redeem at Bunnings')">
+        <div class="bunnings-text">
+          <div class="bunnings-title">Use points for money off your in-store shop at Bunnings</div>
+          <span class="bunnings-link">Learn how</span>
+        </div>
+        <div class="bunnings-logo">B</div>
+      </div>
+
+      <div class="section-heading" style="padding-bottom:10px">Ways to redeem points</div>
+
+      <div class="rewards-grid">
+        <button class="reward-item" onclick="showToast('Money off your shop'); window.ampTrack?.rewardTapped('Money off your shop')">
+          <span class="reward-icon">🛒</span>
+          <span class="reward-label">Money off your shop</span>
+        </button>
+        <button class="reward-item" onclick="showToast('Gift Cards'); window.ampTrack?.rewardTapped('Gift Cards')">
+          <span class="reward-icon">🎁</span>
+          <span class="reward-label">Gift Cards</span>
+        </button>
+        <button class="reward-item" onclick="showToast('Velocity Points'); window.ampTrack?.rewardTapped('Velocity Points')">
+          <span class="reward-icon" style="font-size:26px;background:#7C3AED;color:white;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800">V</span>
+          <span class="reward-label">Velocity Points</span>
+        </button>
+        <button class="reward-item" onclick="showToast('Flybuys Dollars'); window.ampTrack?.rewardTapped('Flybuys Dollars')">
+          <span class="reward-icon" style="font-size:13px;font-weight:800;background:#1E3A8A;color:white;padding:4px 6px;border-radius:4px">FB</span>
+          <span class="reward-label">Flybuys Dollars</span>
+        </button>
+        <button class="reward-item" onclick="showToast('Rewards Store'); window.ampTrack?.rewardTapped('Rewards Store')">
+          <span class="reward-icon">🎧</span>
+          <span class="reward-label">Rewards Store</span>
+        </button>
+        <button class="reward-item" onclick="showToast('Flybuys Travel'); window.ampTrack?.rewardTapped('Flybuys Travel')">
+          <span class="reward-icon">✈️</span>
+          <span class="reward-label">Flybuys Travel</span>
+        </button>
+      </div>
+
+      <div class="section-heading">Promotions &nbsp;<span style="font-size:15px;color:#9CA3AF">1</span></div>
+
+      <div class="promo-section-card" onclick="showToast('Coles Weekly Specials — 5x points this week')">
+        <div class="promo-s-icon">🛍️</div>
+        <div class="promo-s-text">
+          <div class="promo-s-title">Coles Weekly Specials</div>
+          <div class="promo-s-sub">Earn 5x points on selected items this week</div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="screen activity-screen" id="screen-activity">
+      <div class="screen-header" style="background:white">
+        <span class="screen-title">Activity</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-hint">Filter your transactions by points and date.</div>
+        <button class="filter-btn" onclick="showToast('Filter options')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#1E3A8A"><path d="M3 5h2V3H3v2zm0 8h2v-2H3v2zm0 8h2v-2H3v2zm4-16h14V3H7v2zm0 8h14v-2H7v2zm0 8h14v-2H7v2z"/></svg>
+          Filter
+        </button>
+      </div>
+
+      <div class="col-headers">
+        <span class="col-header">Details</span>
+        <span class="col-header">Points</span>
+      </div>
+
+      <div id="transactions-list"></div>
+    </div>
+
+    <!-- PARTNERS -->
+    <div class="screen partner-screen" id="screen-partners">
+      <div class="screen-header" style="background:white">
+        <span style="flex:1"></span>
+        <span class="screen-title center">Flybuys</span>
+        <button class="profile-btn" onclick="doLogout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </button>
+      </div>
+
+      <div style="font-size:22px;font-weight:800;color:#1E3A8A;padding:8px 16px 4px">Our partners</div>
+      <div class="cat-heading">Shopping</div>
+      <div class="partner-grid" id="shopping-partners"></div>
+      <div class="cat-heading">Financial</div>
+      <div class="partner-grid" id="financial-partners"></div>
+      <div style="height:16px"></div>
+    </div>
+
+  </div><!-- /screens -->
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="navigate('home')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" id="nav-collect" onclick="navigate('collect')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm5 2v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+      <span>Collect</span>
+    </button>
+    <button class="nav-item" id="nav-wallet" onclick="navigate('wallet')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V6c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v6c0 1.1.89 2 2 2h9zm-9-2h10v-6H12v6zm4-1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span>Wallet</span>
+    </button>
+    <button class="nav-item" id="nav-redeem" onclick="navigate('redeem')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.34.18-.66.18-1 0-2.21-1.79-4-4-4-1.22 0-2.31.55-3.06 1.42L10 3.9l-.94-1.48C8.31 1.55 7.22 1 6 1 3.79 1 2 2.79 2 5c0 .34.11.66.18 1H0v2h1v11c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8h1V6h-4zm-5-3c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zM6 3c1.1 0 2 .9 2 2S7.1 7 6 7 4 6.1 4 5s.9-2 2-2zm15 16H3V8h8v2h2V8h8v11z"/></svg>
+      <span>Redeem</span>
+    </button>
+    <button class="nav-item" id="nav-activity" onclick="navigate('activity')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+      <span>Activity</span>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Login overlay -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-logo">flybuys</div>
+    <div class="login-tagline">Sign in to your account</div>
+    <div class="login-form">
+      <input class="login-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" />
+      <input class="login-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+      <div class="login-error" id="login-error"></div>
+      <button class="login-btn" onclick="doLogin()">Sign in</button>
+    </div>
+    <div class="login-hint">Demo: any email + password "flybuys"</div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+const state = {
+  points: 1278,
+  offers: [
+    { id:1, store:'Coles', title:'Collect 5x points', desc:'on every transaction in-store or online at Coles.', badge:'5x', expiry:'Ends today', urgent:true, activated:false, emoji:'🛒' },
+    { id:2, store:'Officeworks', title:'Collect 3x points', desc:'when you spend $50 or more at Officeworks.', badge:'3x', expiry:'3 days left', urgent:false, activated:false, emoji:'🖥️' },
+    { id:3, store:'Kmart', title:'200 bonus points', desc:'when you spend $40 or more at Kmart.', badge:'+200', expiry:'5 days left', urgent:false, activated:false, emoji:'🏪' },
+  ],
+  transactions: [
+    { date:'30 April 2025', store:'Coles', location:'Cfc Nsw', amount:'$108.80', points:108, earn:true },
+    { date:'28 April 2025', store:'Kmart', location:'Parramatta NSW', amount:'$55.00', points:55, earn:true },
+    { date:'25 April 2025', store:'Officeworks', location:'Chatswood NSW', amount:'$89.95', points:90, earn:true },
+    { date:'22 April 2025', store:'Flybuys', location:'Redemption', amount:'', points:-500, earn:false },
+    { date:'20 April 2025', store:'Coles', location:'Bondi NSW', amount:'$143.20', points:143, earn:true },
+    { date:'18 April 2025', store:'Liquorland', location:'Manly NSW', amount:'$45.00', points:45, earn:true },
+  ],
+  partners: {
+    shopping: [
+      { name:'Bunnings Warehouse', bg:'#1B6B5A', short:'BW' },
+      { name:'Coles', bg:'#E31E24', short:'coles' },
+      { name:'First Choice Liquor', bg:'#F59E0B', short:'FC' },
+      { name:'Kmart', bg:'#E31E24', short:'K' },
+      { name:'Liquorland', bg:'#111827', short:'LL' },
+      { name:'Officeworks', bg:'#1D4ED8', short:'OW' },
+      { name:'Reddy Express', bg:'#F97316', short:'RE' },
+      { name:'Swaggle', bg:'#EC4899', short:'SW' },
+      { name:'Target', bg:'#E31E24', short:'T' },
+    ],
+    financial: [
+      { name:'HCF', bg:'#E31E24', short:'HCF' },
+      { name:'Velocity Frequent Flyer', bg:'#0EA5E9', short:'V' },
+    ]
+  }
+};
+
+// ── Navigation ──
+let currentScreen = 'home';
+
+function navigate(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const target = document.getElementById('screen-' + screen);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+
+  const navBtn = document.getElementById('nav-' + screen);
+  if (navBtn) navBtn.classList.add('active');
+
+  window.ampTrack?.navigate(currentScreen, screen);
+  window.ampTrack?.screenView(screen);
+  currentScreen = screen;
+
+  if (screen === 'collect') renderOffers();
+  if (screen === 'activity') renderTransactions();
+  if (screen === 'partners') renderPartners();
+}
+
+// ── Clock ──
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  document.getElementById('clock').textContent =
+    h + ':' + (m < 10 ? '0' + m : m);
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// ── Greeting ──
+(function() {
+  const h = new Date().getHours();
+  const g = h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening';
+  document.getElementById('greeting').textContent = g + ', Jamie';
+})();
+
+// ── Points helpers ──
+function fmtPoints(n) { return n.toLocaleString(); }
+function fmtDollars(n) { return '$' + (n * 0.005).toFixed(2); }
+
+function updatePointsDisplay() {
+  document.getElementById('home-points').textContent = fmtPoints(state.points);
+  document.getElementById('home-dollars').textContent = 'worth ' + fmtDollars(state.points) + ' Flybuys Dollars';
+  document.getElementById('wallet-points').textContent = fmtPoints(state.points);
+  const avail = state.offers.filter(o => !o.activated).length;
+  const activ = state.offers.filter(o => o.activated).length;
+  document.getElementById('available-count').textContent = avail;
+  document.getElementById('activated-count').textContent = activ;
+  if (document.getElementById('offers-count'))
+    document.getElementById('offers-count').textContent = avail;
+}
+
+// ── Render offers ──
+function renderOffers() {
+  const container = document.getElementById('offers-list');
+  container.innerHTML = '';
+  const visible = state.offers.filter(o => !o.hidden);
+  document.getElementById('offers-count').textContent = visible.filter(o => !o.activated).length;
+
+  if (visible.length === 0) {
+    container.innerHTML = '<div style="padding:24px 16px;color:#9CA3AF;font-size:14px">No offers available right now.</div>';
+    return;
+  }
+
+  visible.forEach(offer => {
+    const card = document.createElement('div');
+    card.className = 'offer-card';
+    card.innerHTML = `
+      <div class="offer-image">
+        <div class="offer-image-bg">${offer.emoji}</div>
+        <div class="offer-store-badge">${offer.store.toLowerCase()}</div>
+        <div class="offer-points-badge">
+          <span class="badge-num">${offer.badge}</span>
+          <span class="badge-label">POINTS</span>
+        </div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-title">${offer.title}</div>
+        <div class="offer-desc">${offer.desc}</div>
+        <div class="offer-expiry ${offer.urgent ? 'expiry-red' : 'expiry-orange'}">
+          <svg class="expiry-dot" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm.5 5H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>
+          </svg>
+          ${offer.expiry}
+        </div>
+        <div class="offer-actions">
+          <button class="btn-hide" onclick="hideOffer(${offer.id})">Hide</button>
+          <button class="btn-activate ${offer.activated ? 'activated' : ''}" onclick="toggleActivate(${offer.id})">
+            ${offer.activated ? 'Deactivate' : 'Activate'}
+          </button>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function toggleActivate(id) {
+  const offer = state.offers.find(o => o.id === id);
+  if (!offer) return;
+  offer.activated = !offer.activated;
+  if (offer.activated) {
+    state.points += 50;
+    showToast('Offer activated! +50 bonus points');
+    window.ampTrack?.offerActivated(offer.id, offer.store, offer.badge);
+  } else {
+    showToast('Offer deactivated');
+    window.ampTrack?.offerDeactivated(offer.id, offer.store);
+  }
+  window.ampTrack?.setUserProperties(state.points, state.offers.filter(o => o.activated).length);
+  updatePointsDisplay();
+  renderOffers();
+}
+
+function hideOffer(id) {
+  const offer = state.offers.find(o => o.id === id);
+  if (offer) { offer.hidden = true; showToast('Offer hidden'); window.ampTrack?.offerHidden(offer.id, offer.store); }
+  renderOffers();
+  updatePointsDisplay();
+}
+
+// ── Render transactions ──
+function renderTransactions() {
+  const container = document.getElementById('transactions-list');
+  container.innerHTML = '';
+  let lastDate = '';
+  state.transactions.forEach(txn => {
+    if (txn.date !== lastDate) {
+      const dh = document.createElement('div');
+      dh.className = 'txn-date-header';
+      dh.textContent = txn.date;
+      container.appendChild(dh);
+      lastDate = txn.date;
+    }
+    const row = document.createElement('div');
+    row.className = 'txn-row';
+    row.innerHTML = `
+      <div class="txn-info">
+        <div class="txn-store">${txn.store}</div>
+        <div class="txn-location">${txn.location}</div>
+        ${txn.amount ? `<div class="txn-amount">${txn.amount}</div>` : ''}
+      </div>
+      <div class="txn-points ${txn.earn ? 'txn-earn' : 'txn-redeem'}">
+        ${txn.earn ? '+' : ''}${txn.points}
+      </div>`;
+    container.appendChild(row);
+  });
+  const footer = document.createElement('div');
+  footer.className = 'all-caught-up';
+  footer.innerHTML = `<div class="acu-title">You're all caught up</div>
+    <div class="acu-sub">Sometimes transactions are delayed depending on the offer.</div>`;
+  container.appendChild(footer);
+}
+
+// ── Render partners ──
+function renderPartners() {
+  ['shopping','financial'].forEach(cat => {
+    const el = document.getElementById(cat + '-partners');
+    el.innerHTML = '';
+    state.partners[cat].forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'partner-card';
+      card.onclick = () => { showToast(p.name); window.ampTrack?.partnerTapped(p.name); };
+      card.innerHTML = `
+        <div class="partner-logo-wrap" style="background:${p.bg}">
+          <span class="partner-logo-text">${p.short}</span>
+        </div>
+        <div class="partner-name">${p.name}</div>`;
+      el.appendChild(card);
+    });
+  });
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ── Login / Logout ──
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errorEl = document.getElementById('login-error');
+
+  if (!email) { errorEl.textContent = 'Please enter your email.'; return; }
+  if (password !== 'flybuys') { errorEl.textContent = 'Incorrect password. Hint: "flybuys"'; return; }
+
+  errorEl.textContent = '';
+  // Set Amplitude user ID to the email entered
+  window.ampTrack?.login(email);
+
+  document.getElementById('login-overlay').classList.add('hidden');
+
+  const h = new Date().getHours();
+  const g = h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening';
+  document.getElementById('greeting').textContent = g + ', ' + email.split('@')[0];
+
+  window.ampTrack?.screenView('home');
+  window.ampTrack?.setUserProperties(state.points, 0);
+}
+
+function doLogout() {
+  window.ampTrack?.logout();
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('login-overlay').classList.remove('hidden');
+  navigate('home');
+}
+
+// Allow Enter key on login form
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ── Init ──
+updatePointsDisplay();
+renderOffers();
+renderTransactions();
+renderPartners();
+</script>
+</body>
+</html>

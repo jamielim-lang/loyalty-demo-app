@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FlybuysApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/flybuys_blue</item>
+        <item name="colorPrimaryVariant">@color/flybuys_blue_dark</item>
+        <item name="colorOnPrimary">@color/text_white</item>
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/flybuys_red</item>
+        <item name="colorSecondaryVariant">@color/flybuys_red</item>
+        <item name="colorOnSecondary">@color/text_white</item>
+        <!-- Background -->
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_white</item>
+        <item name="colorOnSurface">@color/text_body</item>
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/background_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@color/background_white</item>
+        <!-- Typography -->
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Bottom Sheet Dialog Theme -->
+    <style name="Theme.FlybuysApp.BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.FlybuysApp.BottomSheet</item>
+    </style>
+
+    <style name="Widget.FlybuysApp.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.FlybuysApp.BottomSheet</item>
+    </style>
+
+    <style name="ShapeAppearance.FlybuysApp.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+    </style>
+
+    <!-- Card Style -->
+    <style name="Widget.FlybuysApp.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardBackgroundColor">@color/surface_white</item>
+    </style>
+
+    <!-- Primary Button -->
+    <style name="Widget.FlybuysApp.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/flybuys_blue</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <!-- Secondary Button (Outlined) -->
+    <style name="Widget.FlybuysApp.Button.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/flybuys_blue</item>
+        <item name="android:textColor">@color/flybuys_blue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <!-- Text Styles -->
+    <style name="TextAppearance.FlybuysApp.Heading1">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/flybuys_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.FlybuysApp.Heading2">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/flybuys_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.FlybuysApp.Heading3">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/flybuys_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.FlybuysApp.Body">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_body</item>
+    </style>
+
+    <style name="TextAppearance.FlybuysApp.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="TextAppearance.FlybuysApp.Points">
+        <item name="android:textSize">42sp</item>
+        <item name="android:textColor">@color/flybuys_blue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- It should look something like this in a values file -->
+    <style name="TextAppearance.FlybuysApp" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+
+    </style>
+</resources>

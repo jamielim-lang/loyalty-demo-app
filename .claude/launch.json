@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Flybuys Web Preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/flybuys/serve.py"],
+      "port": 3000
+    },
+    {
+      "name": "Gradle Build (Debug)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/flybuys-gradle-build.py"],
+      "autoPort": true
+    },
+    {
+      "name": "Gradle Install & Run (Debug)",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/flybuys-gradle-install.py"],
+      "autoPort": true
+    },
+    {
+      "name": "Gradle Clean",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/flybuys-gradle-clean.py"],
+      "autoPort": true
+    }
+  ]
+}

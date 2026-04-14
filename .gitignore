@@ -1,0 +1,20 @@
+# Android
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+*.apk
+*.aab
+
+# Web
+web/node_modules/
+web/bundle.js
+
+# Gradle wrapper (keep gradlew scripts, ignore caches)
+.gradle/
+
+# Claude local settings (machine-specific paths)
+.claude/settings.local.json

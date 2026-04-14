@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.flybuys.loyaltyapp.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_partners"
+            app:destination="@id/navigation_partners" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_collect"
+        android:name="com.flybuys.loyaltyapp.ui.collect.CollectFragment"
+        android:label="Collect"
+        tools:layout="@layout/fragment_collect" />
+
+    <fragment
+        android:id="@+id/navigation_wallet"
+        android:name="com.flybuys.loyaltyapp.ui.wallet.WalletFragment"
+        android:label="Wallet"
+        tools:layout="@layout/fragment_wallet" />
+
+    <fragment
+        android:id="@+id/navigation_redeem"
+        android:name="com.flybuys.loyaltyapp.ui.redeem.RedeemFragment"
+        android:label="Redeem"
+        tools:layout="@layout/fragment_redeem" />
+
+    <fragment
+        android:id="@+id/navigation_activity"
+        android:name="com.flybuys.loyaltyapp.ui.activity.ActivityFragment"
+        android:label="Activity"
+        tools:layout="@layout/fragment_activity" />
+
+    <fragment
+        android:id="@+id/navigation_partners"
+        android:name="com.flybuys.loyaltyapp.ui.partner.PartnerFragment"
+        android:label="Flybuys"
+        tools:layout="@layout/fragment_partner">
+        <action
+            android:id="@+id/action_partners_to_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+</navigation>
