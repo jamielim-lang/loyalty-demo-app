@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flybuys Loyalty App — Analytics Demo</title>
+<title>Amplibuys Loyalty App — Analytics Demo</title>
 <script src="bundle.js?v=3"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -505,7 +505,7 @@
 
   <!-- Demo disclaimer bar -->
   <div style="background:#F59E0B;padding:4px 12px;text-align:center;flex-shrink:0">
-    <span style="font-size:10px;font-weight:700;color:#1C1917;letter-spacing:0.5px">DEMO APP — Not the real Flybuys website</span>
+    <span style="font-size:10px;font-weight:700;color:#1C1917;letter-spacing:0.5px">DEMO APP — Amplibuys Analytics Demo</span>
   </div>
 
   <!-- Screens -->
@@ -572,7 +572,7 @@
             <span class="points-num" id="home-points">1,278</span>
             <span class="points-label">points</span>
           </div>
-          <div class="points-value" id="home-dollars">worth $6.39 Flybuys Dollars</div>
+          <div class="points-value" id="home-dollars">worth $6.39 Amplibuys Dollars</div>
           <div class="points-cta">Get started by choosing how you'd like to be rewarded!</div>
           <div class="divider"></div>
           <div class="choose-reward-row" onclick="navigate('redeem')">
@@ -662,7 +662,7 @@
 
       <div class="wallet-card">
         <div class="wallet-card-top">
-          <div class="wallet-logo">flybuys</div>
+          <div class="wallet-logo">amplibuys</div>
           <div class="wallet-points-top">
             <div class="wallet-points-num" id="wallet-points">1,278</div>
             <div class="wallet-points-lbl">points</div>
@@ -730,17 +730,17 @@
           <span class="reward-icon" style="font-size:26px;background:#7C3AED;color:white;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800">V</span>
           <span class="reward-label">Velocity Points</span>
         </button>
-        <button class="reward-item" onclick="showToast('Flybuys Dollars'); window.ampTrack?.rewardTapped('Flybuys Dollars')">
-          <span class="reward-icon" style="font-size:13px;font-weight:800;background:#1E3A8A;color:white;padding:4px 6px;border-radius:4px">FB</span>
-          <span class="reward-label">Flybuys Dollars</span>
+        <button class="reward-item" onclick="showToast('Amplibuys Dollars'); window.ampTrack?.rewardTapped('Amplibuys Dollars')">
+          <span class="reward-icon" style="font-size:13px;font-weight:800;background:#1E3A8A;color:white;padding:4px 6px;border-radius:4px">AB</span>
+          <span class="reward-label">Amplibuys Dollars</span>
         </button>
         <button class="reward-item" onclick="showToast('Rewards Store'); window.ampTrack?.rewardTapped('Rewards Store')">
           <span class="reward-icon">🎧</span>
           <span class="reward-label">Rewards Store</span>
         </button>
-        <button class="reward-item" onclick="showToast('Flybuys Travel'); window.ampTrack?.rewardTapped('Flybuys Travel')">
+        <button class="reward-item" onclick="showToast('Amplibuys Travel'); window.ampTrack?.rewardTapped('Amplibuys Travel')">
           <span class="reward-icon">✈️</span>
-          <span class="reward-label">Flybuys Travel</span>
+          <span class="reward-label">Amplibuys Travel</span>
         </button>
       </div>
 
@@ -789,7 +789,7 @@
     <div class="screen partner-screen" id="screen-partners">
       <div class="screen-header" style="background:white">
         <span style="flex:1"></span>
-        <span class="screen-title center">Flybuys</span>
+        <span class="screen-title center">Amplibuys</span>
         <button class="profile-btn" onclick="doLogout()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="12" cy="8" r="4"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-linecap="round"/>
@@ -837,18 +837,18 @@
   <!-- Login overlay -->
   <div class="login-overlay" id="login-overlay">
     <div style="background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:10px;padding:10px 14px;margin-bottom:24px;width:100%;text-align:center">
-      <div style="font-size:12px;font-weight:700;color:#92400E;letter-spacing:0.5px">DEMONSTRATION APP</div>
-      <div style="font-size:11px;color:#92400E;margin-top:2px">Not affiliated with or endorsed by Flybuys</div>
+      <div style="font-size:12px;font-weight:700;color:#92400E;letter-spacing:0.5px">AMPLIBUYS DEMO APP</div>
+      <div style="font-size:11px;color:#92400E;margin-top:2px">A fictional loyalty app for analytics demonstration</div>
     </div>
-    <div class="login-logo">flybuys</div>
+    <div class="login-logo">amplibuys</div>
     <div class="login-tagline">Demo sign-in — no real credentials used</div>
     <div class="login-form">
       <input class="login-input" id="login-email" type="email" placeholder="Email address (any)" autocomplete="off" />
-      <input class="login-input" id="login-password" type="password" placeholder='Password (use "flybuys")' autocomplete="off" />
+      <input class="login-input" id="login-password" type="password" placeholder='Password (use "amplibuys")' autocomplete="off" />
       <div class="login-error" id="login-error"></div>
       <button class="login-btn" onclick="doLogin()">Sign in to Demo</button>
     </div>
-    <div class="login-hint">Demo only — enter any email, password: "flybuys"</div>
+    <div class="login-hint">Demo only — enter any email, password: "amplibuys"</div>
   </div>
 </div>
 
@@ -865,7 +865,7 @@ const state = {
     { date:'30 April 2025', store:'Coles', location:'Cfc Nsw', amount:'$108.80', points:108, earn:true },
     { date:'28 April 2025', store:'Kmart', location:'Parramatta NSW', amount:'$55.00', points:55, earn:true },
     { date:'25 April 2025', store:'Officeworks', location:'Chatswood NSW', amount:'$89.95', points:90, earn:true },
-    { date:'22 April 2025', store:'Flybuys', location:'Redemption', amount:'', points:-500, earn:false },
+    { date:'22 April 2025', store:'Amplibuys', location:'Redemption', amount:'', points:-500, earn:false },
     { date:'20 April 2025', store:'Coles', location:'Bondi NSW', amount:'$143.20', points:143, earn:true },
     { date:'18 April 2025', store:'Liquorland', location:'Manly NSW', amount:'$45.00', points:45, earn:true },
   ],
@@ -936,7 +936,7 @@ function fmtDollars(n) { return '$' + (n * 0.005).toFixed(2); }
 
 function updatePointsDisplay() {
   document.getElementById('home-points').textContent = fmtPoints(state.points);
-  document.getElementById('home-dollars').textContent = 'worth ' + fmtDollars(state.points) + ' Flybuys Dollars';
+  document.getElementById('home-dollars').textContent = 'worth ' + fmtDollars(state.points) + ' Amplibuys Dollars';
   document.getElementById('wallet-points').textContent = fmtPoints(state.points);
   const avail = state.offers.filter(o => !o.activated).length;
   const activ = state.offers.filter(o => o.activated).length;
@@ -1083,7 +1083,7 @@ function doLogin() {
   const errorEl = document.getElementById('login-error');
 
   if (!email) { errorEl.textContent = 'Please enter your email.'; return; }
-  if (password !== 'flybuys') { errorEl.textContent = 'Incorrect password. Hint: "flybuys"'; return; }
+  if (password !== 'amplibuys') { errorEl.textContent = 'Incorrect password. Hint: "amplibuys"'; return; }
 
   errorEl.textContent = '';
   // Set Amplitude user ID to the email entered
