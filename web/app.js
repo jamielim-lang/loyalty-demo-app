@@ -1,4 +1,9 @@
 import * as amplitude from '@amplitude/unified';
+import { sessionReplayPlugin } from '@amplitude/plugin-session-replay-browser';
+
+// Add session replay plugin before init
+const sessionReplayTracking = sessionReplayPlugin({ sampleRate: 1 });
+amplitude.add(sessionReplayTracking);
 
 // Initialize Amplitude once, client-side only
 amplitude.initAll('73fc93b12b686414b58014f53a33755b', {
