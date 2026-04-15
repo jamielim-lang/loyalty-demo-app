@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flybuys</title>
+<title>Flybuys Loyalty App — Analytics Demo</title>
 <script src="bundle.js?v=3"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -503,6 +503,11 @@
     </div>
   </div>
 
+  <!-- Demo disclaimer bar -->
+  <div style="background:#F59E0B;padding:4px 12px;text-align:center;flex-shrink:0">
+    <span style="font-size:10px;font-weight:700;color:#1C1917;letter-spacing:0.5px">DEMO APP — Not the real Flybuys website</span>
+  </div>
+
   <!-- Screens -->
   <div class="screens">
 
@@ -831,15 +836,19 @@
 
   <!-- Login overlay -->
   <div class="login-overlay" id="login-overlay">
-    <div class="login-logo">flybuys</div>
-    <div class="login-tagline">Sign in to your account</div>
-    <div class="login-form">
-      <input class="login-input" id="login-email" type="email" placeholder="Email address" autocomplete="email" />
-      <input class="login-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
-      <div class="login-error" id="login-error"></div>
-      <button class="login-btn" onclick="doLogin()">Sign in</button>
+    <div style="background:#FEF3C7;border:1.5px solid #F59E0B;border-radius:10px;padding:10px 14px;margin-bottom:24px;width:100%;text-align:center">
+      <div style="font-size:12px;font-weight:700;color:#92400E;letter-spacing:0.5px">DEMONSTRATION APP</div>
+      <div style="font-size:11px;color:#92400E;margin-top:2px">Not affiliated with or endorsed by Flybuys</div>
     </div>
-    <div class="login-hint">Demo: any email + password "flybuys"</div>
+    <div class="login-logo">flybuys</div>
+    <div class="login-tagline">Demo sign-in — no real credentials used</div>
+    <div class="login-form">
+      <input class="login-input" id="login-email" type="email" placeholder="Email address (any)" autocomplete="off" />
+      <input class="login-input" id="login-password" type="password" placeholder='Password (use "flybuys")' autocomplete="off" />
+      <div class="login-error" id="login-error"></div>
+      <button class="login-btn" onclick="doLogin()">Sign in to Demo</button>
+    </div>
+    <div class="login-hint">Demo only — enter any email, password: "flybuys"</div>
   </div>
 </div>
 

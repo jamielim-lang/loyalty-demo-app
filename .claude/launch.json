@@ -5,7 +5,7 @@
       "name": "Flybuys Web Preview",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["/tmp/flybuys/serve.py"],
-      "port": 3000
+      "autoPort": true
     },
     {
       "name": "Gradle Build (Debug)",
